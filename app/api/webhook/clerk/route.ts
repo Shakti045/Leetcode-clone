@@ -8,7 +8,7 @@ import { createUserProps } from '@/constants/types'
  
 export async function POST(req: Request) {
  
-  
+  console.log('webhook called');
   const WEBHOOK_SECRET = process.env.WEBHOOK_SECRET
  
   if (!WEBHOOK_SECRET) {
