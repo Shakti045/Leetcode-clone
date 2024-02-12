@@ -1,4 +1,4 @@
-import { navlinks } from "@/constants"
+import { navlinks } from "@/utils/constants"
 import { SignedIn, SignedOut } from "@clerk/nextjs"
 import Image from "next/image"
 import Link from "next/link"
