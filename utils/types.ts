@@ -4,3 +4,9 @@ export type createUserProps ={
     email: string;
     iconimage: string;
 };
+
+export type updateuserprops ={
+    username: string;
+    email: string;
+    iconimage: string;
+};

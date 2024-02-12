@@ -4,7 +4,7 @@ import { WebhookEvent } from '@clerk/nextjs/server'
 import { createUser, deleteUser, updateUser } from '@/lib/actions/user.actions'
 import { clerkClient } from '@clerk/nextjs'
 import { NextResponse } from 'next/server'
-import { createUserProps } from '@/utils/types'
+import { createUserProps, updateuserprops } from '@/utils/types'
  
 export async function POST(req: Request) {
  
@@ -73,33 +73,40 @@ export async function POST(req: Request) {
             userId: newUser._id
           }
         })
-      return NextResponse.json({ message: 'OK', user: newUser })
+      return NextResponse.json({ message: 'OK', user: newUser },{status:200});
     } catch (error) {
        return NextResponse.json({message:'Error while creating user'},{status:500});
     } 
+  } 
 
-  // if (eventType === 'user.updated') {
-  //   const {id, image_url, first_name, last_name, username } = evt.data
+  if (eventType === 'user.updated') {
+    try{
+      const {id, email_addresses, image_url, first_name, username } = evt.data
 
-  //   const user = {
-  //     firstName: first_name,
-  //     lastName: last_name,
-  //     username: username!,
-  //     photo: image_url,
-  //   }
-
-  //   const updatedUser = await updateUser(id, user)
-
-  //   return NextResponse.json({ message: 'OK', user: updatedUser })
-  // }
-
-  // if (eventType === 'user.deleted') {
-  //   const { id } = evt.data
-
-  //   const deletedUser = await deleteUser(id!)
-
-  //   return NextResponse.json({ message: 'OK', user: deletedUser })
-  // }
-
+      const user:updateuserprops = {
+        email: email_addresses[0].email_address,
+        username: username?username:`${first_name}${Math.floor(Math.random()*1000)}`,
+        iconimage: image_url,
+      }
+  
+      const updatedUser = await updateUser(id, user);
+  
+      return NextResponse.json({ message: 'OK', user: updatedUser })
+    }catch(error){
+      return NextResponse.json({message:'Error while updating user'},{status:500});
+    }
   }
+
+    if (eventType === 'user.deleted') {
+      try{
+        const { id } = evt.data;
+      const deletedUser = await deleteUser(id!)
+      return NextResponse.json({ message: 'OK', user: deletedUser });
+      }catch(error){
+        return NextResponse.json({message:'Error while deleting user'},{status:500});
+      }
+  }
+  
+  return NextResponse.json({ message: 'OK' });
 }
+
