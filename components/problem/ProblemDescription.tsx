@@ -10,7 +10,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion"
 
-const ProblemDescription = ({question}:{question:QuestionType}) => {
+const ProblemDescription = ({question}:{question:QuestionType | any}) => {
 
   return (
    
@@ -35,7 +35,7 @@ const ProblemDescription = ({question}:{question:QuestionType}) => {
             }
             <div  className=" flex flex-col gap-3">
               {
-                question.examples?.map((example,index:number)=>(
+                question.examples?.map((example:any,index:number)=>(
                   <div key={index} className= " flex flex-col gap-1">
                     <h1 className=" text-neutral-100 font-bold text-lg">Example {index}</h1>
                     <p className=" text-gray-300 text-sm">{example.explanation}</p>
@@ -59,7 +59,7 @@ const ProblemDescription = ({question}:{question:QuestionType}) => {
               <AccordionContent>
                   <div className=" flex gap-4 flex-wrap">
                   {
-                      question.companies?.map((company,index)=>(
+                      question.companies?.map((company:string,index:number)=>(
                         <p key={index} className=" p-2 rounded-md bg-yellow-600 ">{company}</p>
                       ))
                    }
@@ -71,7 +71,7 @@ const ProblemDescription = ({question}:{question:QuestionType}) => {
               <h1 className=" text-neutral-100 font-bold text-lg">Constraints</h1>
               <div className="   flex flex-col gap-2">
                     {
-                        question.constraints?.map((constraint,index)=>(
+                        question.constraints?.map((constraint:string,index:number)=>(
                           <p key={index} className=" opacity-40 ">{constraint}</p>
                         ))
                     }
