@@ -1,13 +1,28 @@
-import mongoose, { Types } from "mongoose";
+import mongoose, { Types,Schema } from "mongoose";
+
 
 export interface QuestionType extends Document {
     _id:Types.ObjectId;
     question_number: number;
     title: string;
     description: string;
-    image: string[];
-    examples: Types.ObjectId[] ; 
-    testcases: Types.ObjectId[]; 
+    image?: string[];
+    examples?: [
+        {
+            explanation: string;
+            input: string;
+            output: string;
+            images: string[];
+        }
+    
+    ]; 
+    testcases?: [
+        {
+            input: any;
+            output: any; 
+        }
+    
+    ]; 
     constraints: string[];
     hints: string[];
     accepted: number;
@@ -16,12 +31,12 @@ export interface QuestionType extends Document {
     companies: string[];
     likes: number;
     dislikes: number;
+    level: string;
 }
 
 const questionscheema=new mongoose.Schema({
     question_number:{
         type:Number,
-        required:true
     },
     title:{
         type:String,
@@ -33,21 +48,41 @@ const questionscheema=new mongoose.Schema({
         type:String,
         required:true,
     },
-    image:[
+    images:[
         {
             type:String
         }
     ],
     examples:[
-        {
-            type:mongoose.Schema.ObjectId,
-            ref:"Example"
-        }
+       {
+        explanation:{
+          type:String
+         },
+        input:{
+            type:String
+          ,required:true
+        },
+        output:{
+            type:String
+          ,required:true
+        },
+        images:[
+            {
+                type:String,
+            }
+        ]
+       }
     ],
     testcases:[
         {
-            type:mongoose.Schema.ObjectId,
-            ref:"Testcase"
+            input:{
+                type:Schema.Types.Mixed,
+                required:true
+            },
+            output:{
+                type:Schema.Types.Mixed,
+                required:true
+            }
         }
     ],
     constraints:[
@@ -84,6 +119,11 @@ const questionscheema=new mongoose.Schema({
     dislikes:{
         type:Number,
         default:0
+    },
+    level:{
+        type:String,
+        required:true,
+        enum:["Easy","Medium","Hard"],
     }
 });
 

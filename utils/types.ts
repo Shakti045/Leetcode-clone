@@ -10,3 +10,14 @@ export type updateuserprops ={
     email: string;
     iconimage: string;
 };
+
+export type createquestionpropstype={
+    title: string
+    description: string,
+    images: string[],
+    examples: any[],
+    constraints:string[] ,
+    hints: string[],
+    companies: string[],
+    level: string,
+}
